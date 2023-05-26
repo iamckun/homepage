@@ -8,7 +8,7 @@ import UsageBar from "./usage-bar";
 export default function Cpu({ expanded }) {
   const { t } = useTranslation();
 
-  const { data, error } = useSWR(`/api/widgets/resources?type=cpu`, {
+  const { data, error } = useSWR(`/homepage/api/widgets/resources?type=cpu`, {
     refreshInterval: 1500,
   });
 

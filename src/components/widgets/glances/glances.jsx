@@ -20,7 +20,7 @@ export default function Widget({ options }) {
   const { settings } = useContext(SettingsContext);
 
   const { data, error } = useSWR(
-    `/api/widgets/glances?${new URLSearchParams({ lang: i18n.language, ...options }).toString()}`, {
+    `/homepage/api/widgets/glances?${new URLSearchParams({ lang: i18n.language, ...options }).toString()}`, {
       refreshInterval: 1500,
     }
   );
@@ -184,7 +184,7 @@ export default function Widget({ options }) {
             <div className="flex flex-col ml-3 text-left min-w-[85px]">
               <span className="text-theme-800 dark:text-theme-200 text-xs flex flex-row justify-between">
                 <div className="pl-0.5">
-                  {t("common.number", { 
+                  {t("common.number", {
                     value: mainTemp,
                     maximumFractionDigits: 1,
                     style: "unit",
@@ -196,7 +196,7 @@ export default function Widget({ options }) {
               {options.expanded && (
                 <span className="text-theme-800 dark:text-theme-200 text-xs flex flex-row justify-between">
                   <div className="pl-0.5 pr-1">
-                  {t("common.number", { 
+                  {t("common.number", {
                     value: maxTemp,
                     maximumFractionDigits: 1,
                     style: "unit",

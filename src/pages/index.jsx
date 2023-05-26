@@ -52,10 +52,10 @@ export async function getStaticProps() {
       props: {
         initialSettings: settings,
         fallback: {
-          "/api/services": services,
-          "/api/bookmarks": bookmarks,
-          "/api/widgets": widgets,
-          "/api/hash": false,
+          "/homepage/api/services": services,
+          "/homepage/api/bookmarks": bookmarks,
+          "/homepage/api/widgets": widgets,
+          "/homepage/api/hash": false,
         },
         ...(await serverSideTranslations(settings.language ?? "en")),
       },
@@ -68,10 +68,10 @@ export async function getStaticProps() {
       props: {
         initialSettings: {},
         fallback: {
-          "/api/services": [],
-          "/api/bookmarks": [],
-          "/api/widgets": [],
-          "/api/hash": false,
+          "/homepage/api/services": [],
+          "/homepage/api/bookmarks": [],
+          "/homepage/api/widgets": [],
+          "/homepage/api/hash": false,
         },
         ...(await serverSideTranslations("en")),
       },
@@ -82,8 +82,8 @@ export async function getStaticProps() {
 function Index({ initialSettings, fallback }) {
   const windowFocused = useWindowFocus();
   const [stale, setStale] = useState(false);
-  const { data: errorsData } = useSWR("/api/validate");
-  const { data: hashData, mutate: mutateHash } = useSWR("/api/hash");
+  const { data: errorsData } = useSWR("/homepage/api/validate");
+  const { data: hashData, mutate: mutateHash } = useSWR("/homepage/api/hash");
 
   useEffect(() => {
     if (windowFocused) {
@@ -104,7 +104,7 @@ function Index({ initialSettings, fallback }) {
           setStale(true);
           localStorage.setItem("hash", hashData.hash);
 
-          fetch("/api/revalidate").then((res) => {
+          fetch("/homepage/api/revalidate").then((res) => {
             if (res.ok) {
               window.location.reload();
             }
@@ -172,9 +172,9 @@ function Home({ initialSettings }) {
     setSettings(initialSettings);
   }, [initialSettings, setSettings]);
 
-  const { data: services } = useSWR("/api/services");
-  const { data: bookmarks } = useSWR("/api/bookmarks");
-  const { data: widgets } = useSWR("/api/widgets");
+  const { data: services } = useSWR("/homepage/api/services");
+  const { data: bookmarks } = useSWR("/homepage/api/bookmarks");
+  const { data: widgets } = useSWR("/homepage/api/widgets");
 
   const servicesAndBookmarks = [...services.map(sg => sg.services).flat(), ...bookmarks.map(bg => bg.bookmarks).flat()]
 
@@ -357,7 +357,7 @@ export default function Wrapper({ initialSettings, fallback }) {
         style={wrappedStyle}
       >
         <div
-        id="inner_wrapper" 
+        id="inner_wrapper"
         className={classNames(
           'fixed overflow-auto w-full h-full',
           backgroundBlur && `backdrop-blur${initialSettings.background.blur.length ? '-' : ""}${initialSettings.background.blur}`,

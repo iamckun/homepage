@@ -7,7 +7,7 @@ import Node from "./node";
 export default function Longhorn({ options }) {
   const { expanded, total, labels, include, nodes } = options;
   const { t } = useTranslation();
-  const { data, error } = useSWR(`/api/widgets/longhorn`, {
+  const { data, error } = useSWR(`/homepage/api/widgets/longhorn`, {
     refreshInterval: 1500
   });
 

@@ -11,7 +11,7 @@ function Widget({ options }) {
   const { t } = useTranslation();
 
   const { data, error } = useSWR(
-    `/api/widgets/openmeteo?${new URLSearchParams({ ...options }).toString()}`
+    `/homepage/api/widgets/openmeteo?${new URLSearchParams({ ...options }).toString()}`
   );
 
   if (error || data?.error) {
