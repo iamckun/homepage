@@ -3,7 +3,7 @@ FROM docker.io/node:18-alpine
 
 WORKDIR /app
 
-#COPY --link package.json pnpm-lock.yaml* ./
+COPY --link package.json pnpm-lock.yaml* ./
 
 RUN <<EOF
     set -xe

@@ -5,7 +5,7 @@ FROM docker.io/node:18-alpine AS deps
 
 WORKDIR /app
 
-COPY --link package.json pnpm-lock.yaml* ./
+#COPY --link package.json pnpm-lock.yaml* ./
 
 SHELL ["/bin/ash", "-xeo", "pipefail", "-c"]
 RUN apk add --no-cache libc6-compat \
