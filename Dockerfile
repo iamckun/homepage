@@ -5,16 +5,16 @@ FROM docker.io/node:18-alpine AS deps
 
 WORKDIR /app
 
-COPY  package.json pnpm-lock.yaml* ./
+COPY --link package.json pnpm-lock.yaml* ./
 
 SHELL ["/bin/ash", "-xeo", "pipefail", "-c"]
 RUN apk add --no-cache libc6-compat \
  && apk add --no-cache --virtual .gyp python3 make g++ \
  && npm install -g pnpm
 
-#RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store pnpm fetch | grep -v "cross-device link not permitted\|Falling back to copying packages from store"
+RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store pnpm fetch | grep -v "cross-device link not permitted\|Falling back to copying packages from store"
 
-#RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store pnpm install -r --offline
+RUN --mount=type=cache,id=pnpm-store,target=/root/.local/share/pnpm/store pnpm install -r --offline
 
 # Rebuild the source code only when needed
 FROM docker.io/node:18-alpine AS builder
@@ -24,7 +24,7 @@ ARG BUILDTIME
 ARG VERSION
 ARG REVISION
 
-#COPY  --from=deps /app/node_modules ./node_modules/
+COPY --link --from=deps /app/node_modules ./node_modules/
 COPY . .
 
 SHELL ["/bin/ash", "-xeo", "pipefail", "-c"]
@@ -46,13 +46,13 @@ ENV NODE_ENV production
 WORKDIR /app
 
 # Copy files from context (this allows the files to copy before the builder stage is done).
-COPY  --chown=1000:1000 package.json next.config.js ./
-COPY  --chown=1000:1000 /public ./public/
+COPY --link --chown=1000:1000 package.json next.config.js ./
+COPY --link --chown=1000:1000 /public ./public/
 
 # Copy files from builder
-COPY  --from=builder --chown=1000:1000 /app/.next/standalone ./
-COPY  --from=builder --chown=1000:1000 /app/.next/static/ ./.next/static/
-COPY  --chmod=755 docker-entrypoint.sh /usr/local/bin/
+COPY --link --from=builder --chown=1000:1000 /app/.next/standalone ./
+COPY --link --from=builder --chown=1000:1000 /app/.next/static/ ./.next/static/
+COPY --link --chmod=755 docker-entrypoint.sh /usr/local/bin/
 
 RUN apk add --no-cache su-exec
 
