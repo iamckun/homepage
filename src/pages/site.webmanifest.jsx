@@ -13,12 +13,12 @@ export async function getServerSideProps({ res }) {
     short_name: settings.title || "Homepage",
     icons: [
       {
-        src: "/android-chrome-192x192.png?v=2",
+        src: "/homepage/android-chrome-192x192.png?v=2",
         sizes: "192x192",
         type: "image/png",
       },
       {
-        src: "/android-chrome-512x512.png?v=2",
+        src: "/homepage/android-chrome-512x512.png?v=2",
         sizes: "512x512",
         type: "image/png",
       },
