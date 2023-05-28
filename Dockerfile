@@ -24,7 +24,7 @@ ARG BUILDTIME
 ARG VERSION
 ARG REVISION
 
-COPY  --from=deps /app/node_modules ./node_modules/
+#COPY  --from=deps /app/node_modules ./node_modules/
 COPY . .
 
 SHELL ["/bin/ash", "-xeo", "pipefail", "-c"]
